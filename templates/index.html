@@ -32,11 +32,11 @@
             font-weight: bold;
         }
         input, select {
-            width: 100%; /* Set width to 80% for all input and select elements */
+            width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            box-sizing: border-box; /* Ensures padding and border are included in width */
+            box-sizing: border-box;
         }
         button {
             background-color: #07234b;
@@ -49,38 +49,65 @@
         button:hover {
             background-color: #0a3268;
         }
+        .required {
+            color: red;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>DTC e-Bus Pass Generator</h1>
         <form id="busPassForm" enctype="multipart/form-data">
-            <label for="name">Name:</label>
+            <label for="name">Name:<span class="required">*</span> </label>
             <input type="text" id="name" name="name" required>
 
-            <label for="validity">Validity:</label>
+            <label for="validity">Validity:<span class="required">*</span> </label>
             <select id="validity" name="validity" required>
+                <option value="">Select validity</option>
                 <option value="1">1 month</option>
                 <option value="2">2 months</option>
                 <option value="5">5 months</option>
             </select>
 
-            <label for="startDate">Starting Date:</label>
+            <label for="startDate">Starting Date:<span class="required">*</span> </label>
             <input type="date" id="startDate" name="startDate" required>
 
-            <label for="profilePic">Profile Picture:</label>
+            <label for="profilePic">Profile Picture:<span class="required">*</span> </label>
             <input type="file" id="profilePic" name="profilePic" accept="image/*" required>
 
-            <label for="passNo">Pass Number:</label>
-            <input type="text" id="passNo" name="passNo" required>
+            <label for="passNo">Pass Number:<span class="required">*</span> </label>
+            <input type="text" id="passNo" name="passNo" pattern="\d{13}" maxlength="13" required title="Enter a 13-digit numeric pass number">
 
             <button id="generatePassButton" type="button">Generate Pass</button>
         </form>
     </div>
 
     <script>
+        document.getElementById('passNo').addEventListener('keypress', function(event) {
+            if (!/\d/.test(String.fromCharCode(event.keyCode))) {
+                event.preventDefault();
+            }
+        });
+
         document.getElementById('generatePassButton').addEventListener('click', function() {
-            const formData = new FormData(document.getElementById('busPassForm'));
+            const form = document.getElementById('busPassForm');
+            const nameInput = document.getElementById('name');
+            const passNoInput = document.getElementById('passNo');
+            const profilePicInput = document.getElementById('profilePic');
+
+            if (!form.checkValidity()) {
+                if (nameInput.value === '') {
+                    alert('Please enter your name.');
+                } else if (passNoInput.value === '') {
+                    alert('Please enter your Bus Pass Number.');
+                } else if (passNoInput.value.length < 13) {
+                    alert('Please enter a complete 13-digit Bus Pass Number.');
+                } else if (profilePicInput.files.length === 0) {
+                    alert('Please add a picture for your pass.');
+                }
+                return;
+            }
+            const formData = new FormData(form);
             
             fetch('/generate-pass', {
                 method: 'POST',
