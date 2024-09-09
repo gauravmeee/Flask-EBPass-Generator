@@ -12,15 +12,15 @@
     <meta name="date" content="Dec 26">
     
     <!----------------------------Title Logo ------------------------------------------------------->
-    <link rel="icon" href="Assets/DTC1.png" type="image/x-icon">
+    <link rel="icon" href="static/Assets/DTC1.png" type="image/x-icon">
 
     <!---------------------------------- Stylesheets------------------------------------------>
-    <link rel="stylesheet" href="Style/style.css">
+    <link rel="stylesheet" href="static/Style/style.css">
 		
     <!----------------------------------------- More Jquery and CSS ------------------------------------>
-    <link href="More/paging.css" rel="stylesheet">
-    <script src="More/jquery-1.11.1.min.js.download"></script>
-    <script src="More/jquery.dataTables.min.js.download"></script>
+    <link href="static/More/paging.css" rel="stylesheet">
+    <script src="static/More/jquery-1.11.1.min.js.download"></script>
+    <script src="static/More/jquery.dataTables.min.js.download"></script>
     
     <script>
         $(document).ready(function() {
@@ -63,7 +63,7 @@
                 <!-- Navbar Brand -->
                 <div class="rd-navbar-brand"><a href="https://dtcpass.delhi.gov.in/home.jsp" class="reveal-inline-block">
                     <div class="unit unit-xs-middle unit-xl unit-xl-horizontal unit-spacing-xxs"><br>
-                      <div class="unit-left"><img style="width:127px; height:97px;" src="Assets/DTC1.png" alt=""></div>
+                      <div class="unit-left"><img style="width:127px; height:97px;" src="static/Assets/DTC1.png" alt=""></div>
                       <div class="unit-body text-xl-left">
                         <div class="rd-navbar-brand-title">Delhi Transport Corporation</div>
                       </div>
@@ -85,7 +85,7 @@
                                 <div class="quick">
                                     <hr class="divider bg-madison hr-sm-left-0">
                                     <div id="image">
-                                        <table class="table table-bordered" style="width:100%;border:10px;" background="./Assets/Dtc.jpeg">
+                                        <table class="table table-bordered" style="width:100%;border:10px;" background="static/Assets/Dtc.jpeg">
                                             <tbody><tr>
                                                 <td class="text-center" colspan="4">
                                                     <h5 class="text-center" style="color:#01a2a6;"><u>DTC And Cluster Bus Pass</u></h5>
@@ -108,10 +108,10 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="2">
-                                                    <img src="Assets/Sign.jpg" height="80px" width="80px">
+                                                    <img src="static/Assets/Sign.jpg" height="80px" width="80px">
                                                 </td>
                                                 <td class="text-center" colspan="2">
-                                                    <img src="Assets/QRcode.jpg" height="80px" width="80px">
+                                                    <img src="static/Assets/QRcode.jpg" height="80px" width="80px">
                                                 </td>
                                             </tr>
                                         </tbody></table>
@@ -138,8 +138,8 @@
     <!-- Global Mailform Output-->
     <div id="form-output-global" class="snackbars"></div>
     <!-- Java script-->
-    <script src="Scripts/core.min.js.download"></script>
-    <script src="Scripts/script.js.download"></script>
+    <script src="static/Scripts/core.min.js.download"></script>
+    <script src="static/Scripts/script.js.download"></script>
   
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -148,7 +148,7 @@
             const validity = urlParams.get('validity');
             const startDate = new Date(urlParams.get('startDate'));
             const passNo = urlParams.get('passNo');
-            const profilePicPath = urlParams.get('profilePicPath');
+            const profilePicBase64 = urlParams.get('profilePicBase64');
 
             document.getElementById('userName').innerHTML = `<b>${name}</b>`;
             document.getElementById('blink').textContent = passNo;
@@ -158,8 +158,8 @@
             document.getElementById('validity').innerHTML = `<b>Valid from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}</b>`;
 
             // Set profile picture
-            if (profilePicPath) {
-                document.getElementById('profileImage').src = profilePicPath;
+            if (profilePicBase64) {
+                document.getElementById('profileImage').src = `data:image/jpeg;base64,${profilePicBase64}`;
             }
 
             // Blinking effect for pass number

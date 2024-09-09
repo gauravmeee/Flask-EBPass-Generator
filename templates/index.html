@@ -32,10 +32,11 @@
             font-weight: bold;
         }
         input, select {
-            width: 100%;
+            width: 100%; /* Set width to 80% for all input and select elements */
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding and border are included in width */
         }
         button {
             background-color: #07234b;
@@ -73,14 +74,13 @@
             <label for="passNo">Pass Number:</label>
             <input type="text" id="passNo" name="passNo" required>
 
-            <button type="submit">Generate Pass</button>
+            <button id="generatePassButton" type="button">Generate Pass</button>
         </form>
     </div>
 
     <script>
-        document.getElementById('busPassForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
+        document.getElementById('generatePassButton').addEventListener('click', function() {
+            const formData = new FormData(document.getElementById('busPassForm'));
             
             fetch('/generate-pass', {
                 method: 'POST',
@@ -91,7 +91,10 @@
                 const queryString = new URLSearchParams(data).toString();
                 window.location.href = `/bus-pass?${queryString}`;
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to generate pass. Please try again.');
+            });
         });
     </script>
 </body>
