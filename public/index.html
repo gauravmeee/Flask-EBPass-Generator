@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTC e-Bus Pass Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #d9eeef;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #07234b;
+            text-align: center;
+        }
+        form {
+            display: grid;
+            gap: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #07234b;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0a3268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DTC e-Bus Pass Generator</h1>
+        <form id="busPassForm" enctype="multipart/form-data">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="validity">Validity:</label>
+            <select id="validity" name="validity" required>
+                <option value="1">1 month</option>
+                <option value="2">2 months</option>
+                <option value="5">5 months</option>
+            </select>
+
+            <label for="startDate">Starting Date:</label>
+            <input type="date" id="startDate" name="startDate" required>
+
+            <label for="profilePic">Profile Picture:</label>
+            <input type="file" id="profilePic" name="profilePic" accept="image/*" required>
+
+            <label for="passNo">Pass Number:</label>
+            <input type="text" id="passNo" name="passNo" required>
+
+            <button type="submit">Generate Pass</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('busPassForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            fetch('/generate-pass', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const queryString = new URLSearchParams(data).toString();
+                window.location.href = `/bus-pass?${queryString}`;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
