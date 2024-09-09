@@ -53,5 +53,9 @@ def bus_pass():
     return render_template('bus-pass.html', name=name, validity=validity, start_date=start_date,
                            pass_no=pass_no, profile_pic_base64=profile_pic_base64)
 
+# if __name__ == '__main__':
+#     app.run(port=3000, debug=True)
+
 if __name__ == '__main__':
-    app.run(port=3000, debug=True)
+    # Use the port and host recommended by Render
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
