@@ -155,7 +155,8 @@
 
             const endDate = new Date(startDate);
             endDate.setMonth(endDate.getMonth() + parseInt(validity));
-            document.getElementById('validity').innerHTML = `<b>Valid from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}</b>`;
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('validity').innerHTML = `<b>Valid from ${startDate.toLocaleDateString('en-GB', options)} to ${endDate.toLocaleDateString('en-GB', options)}</b>`;
 
             // Set profile picture
             if (profilePicBase64) {
